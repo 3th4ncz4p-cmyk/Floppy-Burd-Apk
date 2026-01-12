@@ -29,7 +29,7 @@ else:
 
 pygame.init()
 icon_surface = pygame.image.load("icon_burd.png") 
-pygame.display.set_icon(icon_surface)
+#pygame.display.set_icon(icon_surface)
 pygame.mixer.init()
 
 info = pygame.display.Info()
@@ -785,3 +785,4 @@ def main():
 if __name__ == "__main__":
     try: main()
     except: pygame.quit(); sys.exit()
+
