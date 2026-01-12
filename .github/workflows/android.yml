@@ -12,10 +12,12 @@ jobs:
           sudo apt update
           sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
           pip3 install --user --upgrade buildozer
+          pip3 install --user --upgrade Cython==0.29.33 # Version spécifique souvent requise
 
       - name: Build with Buildozer
         run: |
           export PATH=$PATH:$HOME/.local/bin
+          # On accepte toutes les licences et on lance le build
           yes | buildozer android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
