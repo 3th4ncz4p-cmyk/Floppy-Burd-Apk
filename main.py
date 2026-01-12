@@ -8,41 +8,17 @@ import pygame, random, sys, math, json, time, os
 # --- Gestion des chemins pour compatibilité EXE et Sauvegarde ---
 def get_save_path():
     # Détection si l'application tourne sur Android
-    if 'ANDROID_ARGUMENT' in os.environ:
-        # Sur Android, on utilise le dossier interne de l'app
-        from android.storage import app_storage_path
-        app_dir = app_storage_path()
-    else:
-        # Sur Windows (AppData)
-        app_dir = os.path.join(os.getenv('APPDATA', os.path.expanduser('~')), "FloppyBurd")
-    
-    if not os.path.exists(app_dir):
-        os.makedirs(app_dir)
-    return os.path.join(app_dir, "save.json")
+# --- On simplifie au maximum pour Android ---
+try:
+    if 'ANDROID_ARGUMENT' not in os.environ and not getattr(sys, 'frozen', False):
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+except:
+    pass
 
-# On s'assure que le répertoire de travail est correct pour les images/sons
-# --- Correction pour compatibilité Android/PC ---
-if 'ANDROID_ARGUMENT' not in os.environ:
-    if getattr(sys, 'frozen', False):
-        os.chdir(os.path.dirname(sys.executable))
-    else:
-        # On ne fait cela que sur PC pour éviter le crash Android
-        try:
-            os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        except:
-            pass
-
-# pygame.init() doit être appelé AVANT de charger l'icône
 pygame.init()
-
-# Optionnel : Désactivez ces 2 lignes pour le premier test de build
-# icon_surface = pygame.image.load("icon_burd.png") 
-# pygame.display.set_icon(icon_surface)
-
-#pygame.init()
+pygame.mixer.init()
 #icon_surface = pygame.image.load("icon_burd.png") 
 #pygame.display.set_icon(icon_surface)
-pygame.mixer.init()
 
 info = pygame.display.Info()
 SCREEN_WIDTH = info.current_w if 'ANDROID_ARGUMENT' in os.environ else 500
@@ -797,6 +773,7 @@ def main():
 if __name__ == "__main__":
     try: main()
     except: pygame.quit(); sys.exit()
+
 
 
 
