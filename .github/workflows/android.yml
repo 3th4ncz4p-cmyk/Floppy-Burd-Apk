@@ -7,21 +7,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+      - name: Debug Dossiers
+        run: ls -R
 
       - name: Install Dependencies
         run: |
           sudo apt update
-          sudo apt install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-          pip install --upgrade pip
-          pip install buildozer Cython==0.29.33 pygame
+          sudo apt install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+          pip3 install --user --upgrade buildozer Cython==0.29.33
 
       - name: Build with Buildozer
         run: |
-          # Cette commande force l'acceptation des licences et lance le build
+          export PATH=$PATH:$HOME/.local/bin
+          # Le "yes" force l'acceptation de toutes les licences Android
           yes | buildozer android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
