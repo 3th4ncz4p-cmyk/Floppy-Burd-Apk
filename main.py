@@ -27,8 +27,8 @@ else:
     # Sur Android ou script classique
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-pygame.init()
-icon_surface = pygame.image.load("icon_burd.png") 
+#pygame.init()
+#icon_surface = pygame.image.load("icon_burd.png") 
 #pygame.display.set_icon(icon_surface)
 pygame.mixer.init()
 
@@ -785,4 +785,5 @@ def main():
 if __name__ == "__main__":
     try: main()
     except: pygame.quit(); sys.exit()
+
 
