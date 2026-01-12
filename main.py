@@ -21,11 +21,23 @@ def get_save_path():
     return os.path.join(app_dir, "save.json")
 
 # On s'assure que le répertoire de travail est correct pour les images/sons
-if getattr(sys, 'frozen', False):
-    os.chdir(os.path.dirname(sys.executable))
-else:
-    # Sur Android ou script classique
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+# --- Correction pour compatibilité Android/PC ---
+if 'ANDROID_ARGUMENT' not in os.environ:
+    if getattr(sys, 'frozen', False):
+        os.chdir(os.path.dirname(sys.executable))
+    else:
+        # On ne fait cela que sur PC pour éviter le crash Android
+        try:
+            os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        except:
+            pass
+
+# pygame.init() doit être appelé AVANT de charger l'icône
+pygame.init()
+
+# Optionnel : Désactivez ces 2 lignes pour le premier test de build
+# icon_surface = pygame.image.load("icon_burd.png") 
+# pygame.display.set_icon(icon_surface)
 
 #pygame.init()
 #icon_surface = pygame.image.load("icon_burd.png") 
@@ -785,5 +797,6 @@ def main():
 if __name__ == "__main__":
     try: main()
     except: pygame.quit(); sys.exit()
+
 
 
