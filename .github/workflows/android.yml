@@ -7,9 +7,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug Dossiers
-        run: ls -R
-
       - name: Install Dependencies
         run: |
           sudo apt update
@@ -19,7 +16,9 @@ jobs:
       - name: Build with Buildozer
         run: |
           export PATH=$PATH:$HOME/.local/bin
-          # Le "yes" force l'acceptation de toutes les licences Android
+          # On vérifie si buildozer voit bien le fichier
+          ls -la
+          # On lance le build en ignorant les erreurs de configuration mineures
           yes | buildozer android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
