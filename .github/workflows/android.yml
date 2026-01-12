@@ -1,0 +1,20 @@
+name: Build APK
+on: [push, pull_request] # Se lance à chaque fois que tu envoies du code
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 # GitHub récupère ton code
+
+      - name: Build with Buildozer
+        uses: ArtemSerebriakov/buildozer-action@v1 # Utilise l'outil de conversion
+        with:
+          workdir: .
+          buildozer_version: master
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3 # Récupère le résultat final
+        with:
+          name: FloppyBurd-APK # Nom du dossier à télécharger
+          path: bin/*.apk # Où se trouve l'APK généré
